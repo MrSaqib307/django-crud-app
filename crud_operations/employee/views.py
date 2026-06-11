@@ -11,15 +11,17 @@ from .models import Employee
 @login_required(login_url='/login/')
 def home(request):
     query = request.GET.get('q', '')
+    dept_filter = request.GET.get('dept', '')
+    employees = Employee.objects.all()
     if query:
-        employees = Employee.objects.filter(emp_name__icontains=query) | Employee.objects.filter(emp_dept__icontains=query)
-    else:
-        employees = Employee.objects.all()
+        employees = employees.filter(emp_name__icontains=query) | employees.filter(emp_dept__icontains=query)
+    if dept_filter:
+        employees = employees.filter(emp_dept=dept_filter)
+    departments = Employee.objects.values_list('emp_dept', flat=True).distinct()
     paginator = Paginator(employees, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, "home.html", {'page_obj': page_obj, 'query': query})
-
+    return render(request, "home.html", {'page_obj': page_obj, 'query': query, 'departments': departments, 'dept_filter': dept_filter})
 def create_view(request):
     return render(request, "create.html")
 
