@@ -35,7 +35,7 @@
                     <td>{{ x.emp_dept }}</td>
                     <td>{{ x.emp_salary }}</td>
 <td><a href="{% url 'update_emp' x.id %}" class="btn btn-warning btn-sm">Update</a></td>
-                    <td><a href="{% url 'delete' x.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+<td><a href="{% url 'delete' x.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete {{ x.emp_name }}?')">Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
