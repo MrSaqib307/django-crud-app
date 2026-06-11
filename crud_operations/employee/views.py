@@ -1,3 +1,4 @@
+from django.db.models import Sum, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from .models import Employee
@@ -12,6 +13,15 @@ def home(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, "home.html", {'page_obj': page_obj, 'query': query})
+def dashboard(request):
+    total_employees = Employee.objects.count()
+    total_salary = Employee.objects.aggregate(Sum('emp_salary'))['emp_salary__sum'] or 0
+    total_departments = Employee.objects.values('emp_dept').distinct().count()
+    return render(request, "dashboard.html", {
+        'total_employees': total_employees,
+        'total_salary': total_salary,
+        'total_departments': total_departments,
+    })
 def create_view(request):
     return render(request, "create.html")
 
