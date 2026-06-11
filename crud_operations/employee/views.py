@@ -1,3 +1,5 @@
+import csv
+from django.http import HttpResponse
 from django.db.models import Sum, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
@@ -84,3 +86,12 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('/login/')
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="employees.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['ID', 'Employee ID', 'Name', 'Department', 'Salary', 'Email', 'Phone', 'Date Joined'])
+    employees = Employee.objects.all()
+    for emp in employees:
+        writer.writerow([emp.id, emp.emp_id, emp.emp_name, emp.emp_dept, emp.emp_salary, emp.emp_email, emp.emp_phone, emp.date_joined])
+    return response
