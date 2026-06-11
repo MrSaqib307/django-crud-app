@@ -8,3 +8,4 @@ class Employee(models.Model):
     emp_email = models.EmailField(max_length=100, blank=True, default='')
     emp_phone = models.CharField(max_length=15, blank=True, default='')
     date_joined = models.DateField(auto_now_add=True)
+    photo = models.ImageField(upload_to='photos/', blank=True, null=True)

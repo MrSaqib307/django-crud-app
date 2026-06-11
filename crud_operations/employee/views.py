@@ -33,8 +33,17 @@ def create_emp(request):
         emp_salary = request.POST.get('emp_salary')
         emp_email = request.POST.get('emp_email')
         emp_phone = request.POST.get('emp_phone')
+        photo = request.FILES.get('photo')
         if emp_id and emp_name and emp_dept:
-            Employee.objects.create(emp_id=emp_id, emp_name=emp_name, emp_dept=emp_dept, emp_salary=emp_salary, emp_email=emp_email, emp_phone=emp_phone)
+            Employee.objects.create(
+                emp_id=emp_id,
+                emp_name=emp_name,
+                emp_dept=emp_dept,
+                emp_salary=emp_salary,
+                emp_email=emp_email,
+                emp_phone=emp_phone,
+                photo=photo
+            )
             messages.success(request, "Employee added successfully!")
             return redirect('/')
     return render(request, "create.html")
