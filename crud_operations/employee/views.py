@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Employee
 
 def home(request):
@@ -7,8 +8,10 @@ def home(request):
         employees = Employee.objects.filter(emp_name__icontains=query) | Employee.objects.filter(emp_dept__icontains=query)
     else:
         employees = Employee.objects.all()
-    return render(request, "home.html", {'employees': employees, 'query': query})
-
+    paginator = Paginator(employees, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, "home.html", {'page_obj': page_obj, 'query': query})
 def create_view(request):
     return render(request, "create.html")
 
