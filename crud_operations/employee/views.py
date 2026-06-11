@@ -67,10 +67,19 @@ def dashboard(request):
     total_employees = Employee.objects.count()
     total_salary = Employee.objects.aggregate(Sum('emp_salary'))['emp_salary__sum'] or 0
     total_departments = Employee.objects.values('emp_dept').distinct().count()
+    
+    dept_data = Employee.objects.values('emp_dept').annotate(count=Count('emp_dept'), total_salary=Sum('emp_salary'))
+    dept_labels = [d['emp_dept'] for d in dept_data]
+    dept_counts = [d['count'] for d in dept_data]
+    salary_data = [float(d['total_salary']) for d in dept_data]
+
     return render(request, "dashboard.html", {
         'total_employees': total_employees,
         'total_salary': total_salary,
         'total_departments': total_departments,
+        'dept_labels': dept_labels,
+        'dept_counts': dept_counts,
+        'salary_data': salary_data,
     })
 
 def login_view(request):
