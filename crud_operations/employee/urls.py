@@ -9,4 +9,6 @@ urlpatterns = [
     path('update/update_emp/<int:id>/', views.update_emp, name="update_emp"),
     path('delete/<int:id>/', views.delete, name="delete"),
     path('dashboard/', views.dashboard, name="dashboard"),
+    path('login/', views.login_view, name="login"),
+    path('logout/', views.logout_view, name="logout"),                      
 ]
