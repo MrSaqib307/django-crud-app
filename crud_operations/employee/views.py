@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Employee
 
 def home(request):
-    employees = Employee.objects.all()
-    return render(request, "home.html", {'employees': employees})
+    query = request.GET.get('q', '')
+    if query:
+        employees = Employee.objects.filter(emp_name__icontains=query) | Employee.objects.filter(emp_dept__icontains=query)
+    else:
+        employees = Employee.objects.all()
+    return render(request, "home.html", {'employees': employees, 'query': query})
 
 def create_view(request):
     return render(request, "create.html")
