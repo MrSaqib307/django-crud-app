@@ -10,8 +10,6 @@
     <style>
         * { font-family: 'Poppins', sans-serif; }
         body { background: #f5f6fa; }
-
-        /* Sidebar */
         .sidebar {
             width: 240px;
             min-width: 240px;
@@ -47,8 +45,6 @@
         .sidebar-menu a.active { background: rgba(255,255,255,0.25); color: white; }
         .sidebar-menu a i { width: 22px; margin-right: 8px; font-size: 0.9rem; }
         .sidebar-divider { border-color: rgba(255,255,255,0.15); margin: 8px 18px; }
-
-        /* Main */
         .main-wrapper { margin-left: 240px; min-height: 100vh; }
         .topbar {
             background: white;
@@ -63,12 +59,8 @@
         }
         .topbar h4 { font-weight: 700; color: #1a5c38; margin: 0; font-size: 1.15rem; }
         .main-content { padding: 24px 28px; }
-
-        /* Cards */
         .card { border: none; border-radius: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.07); background: white; }
         .card-header { border-radius: 12px 12px 0 0 !important; padding: 14px 20px; font-weight: 600; }
-
-        /* Table */
         .table-card { border-radius: 12px; overflow: hidden; box-shadow: 0 1px 8px rgba(0,0,0,0.07); }
         .table { margin: 0; font-size: 0.875rem; }
         .table thead th {
@@ -85,13 +77,9 @@
         .table tbody tr:hover { background: #f0fff4; }
         .table tbody tr:nth-child(even) { background: #fafafa; }
         .table tbody tr:nth-child(even):hover { background: #f0fff4; }
-
-        /* Buttons */
         .btn { border-radius: 7px; font-weight: 500; font-size: 0.83rem; }
         .btn-success { background: #1a5c38; border-color: #1a5c38; }
         .btn-success:hover { background: #154a2d; border-color: #154a2d; }
-
-        /* Page Header */
         .page-header {
             background: white;
             border-radius: 12px;
@@ -104,28 +92,19 @@
         }
         .page-header h5 { font-weight: 700; margin: 0; color: #1a3a2a; font-size: 1rem; }
         .page-header p { margin: 0; color: #888; font-size: 0.8rem; }
-
-        /* Badges */
         .badge { font-weight: 500; padding: 4px 9px; border-radius: 6px; font-size: 0.75rem; }
-
-        /* Alert */
         .alert { border-radius: 10px; border: none; font-size: 0.875rem; }
-
-        /* Avatar */
         .avatar {
             width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-weight: 700; font-size: 0.85rem; color: white;
             background: linear-gradient(135deg, #1a5c38, #28a745);
         }
-
-        /* Dark Mode */
         body.dark-mode { background: #121212; color: #e0e0e0; }
         body.dark-mode .topbar, body.dark-mode .card, body.dark-mode .page-header { background: #1e1e1e; color: #e0e0e0; }
         body.dark-mode .table tbody td { color: #ccc; border-color: #2a2a2a; }
         body.dark-mode .table tbody tr:nth-child(even) { background: #1a1a1a; }
         body.dark-mode .table tbody tr:hover { background: #2a2a2a; }
-
         @media print {
             .sidebar, .topbar, .btn, .pagination, form { display: none !important; }
             .main-wrapper { margin-left: 0; }
@@ -146,6 +125,7 @@
             <a href="/dashboard/" class="{% block nav_dashboard %}{% endblock %}"><i class="fas fa-chart-pie"></i>Dashboard</a>
             <a href="/departments/" class="{% block nav_departments %}{% endblock %}"><i class="fas fa-building"></i>Departments</a>
             <a href="/attendance/" class="{% block nav_attendance %}{% endblock %}"><i class="fas fa-calendar-check"></i>Attendance</a>
+            <a href="/attendance/report/" class="{% block nav_report %}{% endblock %}"><i class="fas fa-chart-bar"></i>Attendance Report</a>
             <a href="/create/" class="{% block nav_create %}{% endblock %}"><i class="fas fa-user-plus"></i>Add Employee</a>
             <hr class="sidebar-divider">
             <a href="/export-csv/"><i class="fas fa-download"></i>Export CSV</a>

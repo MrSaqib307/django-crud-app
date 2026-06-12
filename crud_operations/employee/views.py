@@ -172,3 +172,27 @@ def delete_attendance(request, id):
     attendance.delete()
     messages.success(request, "Attendance deleted successfully!")
     return redirect('/attendance/')
+def attendance_report(request):
+    query = request.GET.get('q', '')
+    employees = Employee.objects.all()
+    if query:
+        employees = employees.filter(emp_name__icontains=query)
+    report = []
+    for emp in employees:
+        total = Attendance.objects.filter(employee=emp).count()
+        present = Attendance.objects.filter(employee=emp, status='Present').count()
+        absent = Attendance.objects.filter(employee=emp, status='Absent').count()
+        leave = Attendance.objects.filter(employee=emp, status='Leave').count()
+        if total > 0:
+            percentage = round((present / total) * 100, 1)
+        else:
+            percentage = 0
+        report.append({
+            'employee': emp,
+            'total': total,
+            'present': present,
+            'absent': absent,
+            'leave': leave,
+            'percentage': percentage,
+        })
+    return render(request, "attendance_report.html", {'report': report, 'query': query})

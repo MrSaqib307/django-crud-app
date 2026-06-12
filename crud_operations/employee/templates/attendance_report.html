@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance Report{% endblock %}
+{% block page_title %}📊 Attendance Report{% endblock %}
+{% block nav_attendance %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="card p-3 mb-3">
+    <form method="GET" action="/attendance/report/">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search employee by name..." value="{{ query }}">
+            <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
+            <a href="/attendance/report/" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+</div>
+    <div>
+        <h5 class="fw-bold mb-1">Attendance Report</h5>
+        <p>Monthly attendance summary per employee</p>
+    </div>
+    <a href="/attendance/" class="btn btn-success"><i class="fas fa-calendar-check me-2"></i>Back to Attendance</a>
+</div>
+
+<div class="table-card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Total Days</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>Leave</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in report %}
+            <tr>
+                <td>
+                    {% if r.employee.photo %}
+                        <img src="{{ r.employee.photo.url }}" width="36" height="36" style="border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                        <div class="avatar">{{ r.employee.emp_name|first }}</div>
+                    {% endif %}
+                </td>
+                <td><strong>{{ r.employee.emp_name }}</strong></td>
+                <td><span class="badge bg-success">{{ r.employee.emp_dept }}</span></td>
+                <td>{{ r.total }}</td>
+                <td><span class="badge bg-success">{{ r.present }}</span></td>
+                <td><span class="badge bg-danger">{{ r.absent }}</span></td>
+                <td><span class="badge bg-warning">{{ r.leave }}</span></td>
+                <td>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="progress flex-grow-1" style="height: 8px; border-radius: 4px;">
+                            <div class="progress-bar bg-success" style="width: {{ r.percentage }}%"></div>
+                        </div>
+                        <span class="fw-bold text-success">{{ r.percentage }}%</span>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
