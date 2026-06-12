@@ -18,3 +18,19 @@ class Employee(models.Model):
     date_joined = models.DateField(auto_now_add=True)
     photo = models.ImageField(upload_to='photos/', blank=True, null=True)
     is_employee_of_month = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.emp_name
+
+class Attendance(models.Model):
+    STATUS_CHOICES = [
+        ('Present', 'Present'),
+        ('Absent', 'Absent'),
+        ('Leave', 'Leave'),
+    ]
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Present')
+
+    def __str__(self):
+        return f"{self.employee.emp_name} - {self.date} - {self.status}"

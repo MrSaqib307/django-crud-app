@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">👔 Employee Manager</a>
+        <div class="d-flex">
+            <a href="/" class="btn btn-outline-light me-2">Home</a>
+            <a href="/dashboard/" class="btn btn-outline-light me-2">Dashboard</a>
+            <a href="/departments/" class="btn btn-outline-light me-2">Departments</a>
+            <a href="/attendance/" class="btn btn-outline-light me-2">Attendance</a>
+            <a href="{% url 'create' %}" class="btn btn-light me-2">Add Employee</a>
+            <a href="/logout/" class="btn btn-outline-light">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container mt-3">
+    <h2 class="text-center mb-4">Attendance</h2>
+    <a href="/attendance/mark/" class="btn btn-success mb-3">Mark Attendance</a>
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in attendances %}
+            <tr>
+                <td>{{ a.id }}</td>
+                <td>{{ a.employee.emp_name }}</td>
+                <td>{{ a.date }}</td>
+                <td>
+                    {% if a.status == 'Present' %}
+                        <span class="badge bg-success">Present</span>
+                    {% elif a.status == 'Absent' %}
+                        <span class="badge bg-danger">Absent</span>
+                    {% else %}
+                        <span class="badge bg-warning">Leave</span>
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'delete_attendance' a.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

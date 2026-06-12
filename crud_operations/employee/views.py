@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Employee, Department
+from .models import Employee, Department, Attendance
 
 @login_required(login_url='/login/')
 def home(request):
@@ -149,3 +150,25 @@ def department_delete(request, id):
     dept.delete()
     messages.success(request, "Department deleted successfully!")
     return redirect('/departments/')
+def attendance_list(request):
+    attendances = Attendance.objects.all().order_by('-date')
+    employees = Employee.objects.all()
+    return render(request, "attendance.html", {'attendances': attendances, 'employees': employees})
+
+def mark_attendance(request):
+    if request.method == "POST":
+        emp_id = request.POST.get('employee')
+        date = request.POST.get('date')
+        status = request.POST.get('status')
+        employee = get_object_or_404(Employee, id=emp_id)
+        Attendance.objects.create(employee=employee, date=date, status=status)
+        messages.success(request, "Attendance marked successfully!")
+        return redirect('/attendance/')
+    employees = Employee.objects.all()
+    return render(request, "mark_attendance.html", {'employees': employees})
+
+def delete_attendance(request, id):
+    attendance = get_object_or_404(Attendance, id=id)
+    attendance.delete()
+    messages.success(request, "Attendance deleted successfully!")
+    return redirect('/attendance/')
